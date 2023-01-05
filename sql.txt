@@ -1,0 +1,39 @@
+drop database if exists jegyzetek;
+
+create database jegyzetek
+	DEFAULT CHARACTER SET utf8
+	DEFAULT COLLATE utf8_general_ci;
+    
+use jegyzetek;
+
+create table felhasznalo(
+	id int primary key auto_increment,
+	email nvarchar(50) not null,
+    nev nvarchar(50) not null,
+    jelszo nvarchar(50) not null
+    );
+    
+insert into felhasznalo (email, nev, jelszo) values ('admin@admin.hu', 'admin', 'adminadmin');
+
+create table jegyzet(
+    id int primary key auto_increment,
+	jegyzetszoveg nvarchar(5000),
+    jegyzetnev nvarchar(50),
+    jegyzetdatum date,
+    felhasznaloid int not null,
+    
+     foreign key (felhasznaloid) references felhasznalo(id)
+     );
+     
+create table fenykep(
+	id int primary key auto_increment,
+    felhasznaloid int not null,
+    fenykepfile_name varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	leiras varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+	uploaded_on datetime NOT NULL,
+	status enum('1','0') COLLATE utf8_unicode_ci NOT NULL,
+    
+	foreign key (felhasznaloid) references felhasznalo(id)
+    )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+    
